@@ -1,16 +1,31 @@
 <template>
-  <div></div>
+	<div class="app">
+		<router-view> </router-view>
+	</div>
 </template>
 
 <script>
-  export default {
-    data () {
-      return {}
-    },
-    created () {},
-    mounted () {},
-    methods: {}
-  }
+export default {
+	data() {
+		return {};
+	},
+	created() {},
+	mounted() {},
+	methods: {},
+};
 </script>
 
-<style></style>
+<style lang="less">
+body,
+html {
+	height: 100%;
+}
+* {
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+}
+.app {
+	height: 100%;
+}
+</style>
