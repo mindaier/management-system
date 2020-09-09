@@ -24,6 +24,7 @@ html {
 	padding: 0;
 	margin: 0;
 	box-sizing: border-box;
+	list-style: none;
 }
 .app {
 	height: 100%;
