@@ -3,70 +3,54 @@
 		<!-- 左侧登录表单 -->
 		<div class="left">
 			<div class="top">
-				<img class="login-logo" src="@/assets/login-logo.png" alt="" />
+				<img class="login-logo" src="@/assets/login-logo.png" alt />
 				<span class="t1">黑马面面</span>
 				<div class="line"></div>
 				<span class="t2">用户登录</span>
 			</div>
 			<el-form ref="form" :model="form" :rules="rules">
 				<el-form-item prop="phone">
-					<el-input
-						icon="el-icon-user"
-						placeholder="请输入手机号"
-						v-model="form.phone"
-					></el-input>
+					<el-input icon="el-icon-user" placeholder="请输入手机号" v-model="form.phone"></el-input>
 				</el-form-item>
 				<el-form-item prop="password">
-					<el-input
-						placeholder="请输入密码"
-						icon="el-icon-lock"
-						show-password
-						v-model="form.password"
-					></el-input>
+					<el-input placeholder="请输入密码" icon="el-icon-lock" show-password v-model="form.password"></el-input>
 				</el-form-item>
 				<el-form-item prop="code">
 					<el-row>
 						<el-col :span="16">
-							<el-input
-								prefix-icon="el-icon-key"
-								placeholder="请输入验证码"
-								v-model="form.code"
-							></el-input>
+							<el-input prefix-icon="el-icon-key" placeholder="请输入验证码" v-model="form.code"></el-input>
 						</el-col>
 						<el-col :span="8">
-							<img class="code" alt="" />
+							<img class="code" src="@/assets/code.png" />
 						</el-col>
 					</el-row>
 				</el-form-item>
 				<el-form-item prop="isPass">
 					<el-checkbox v-model="form.isPass">
-						我已阅读并同意<el-link type="primary">用户协议</el-link>和<el-link
-							type="primary"
-							>隐私条款</el-link
-						>
+						我已阅读并同意
+						<el-link type="primary">用户协议</el-link>和
+						<el-link type="primary">隐私条款</el-link>
 					</el-checkbox>
 				</el-form-item>
 				<el-form-item>
-					<el-button class="btn btn-login" type="primary" @click="toLogin"
-						>登陆</el-button
-					>
+					<el-button class="btn btn-login" type="primary" @click="toLogin">登陆</el-button>
 					<br />
-					<el-button
-						class="btn btn-register"
-						type="primary"
-						@click="cancelEvent"
-						>注册</el-button
-					>
+					<el-button class="btn btn-register" type="primary" @click="cancelEvent">注册</el-button>
 				</el-form-item>
 			</el-form>
 		</div>
 		<!-- 右侧图片 -->
 		<img src="@/assets/login-right.png" class="right" />
+		<register ref="register"></register>
 	</div>
 </template>
 
 <script>
+import register from "./register.vue";
 export default {
+	components: {
+		register,
+	},
 	data() {
 		return {
 			form: {
@@ -133,11 +117,15 @@ export default {
 				if (result) {
 					this.$message.success("验证通过");
 				} else {
-					this.$message.success("验证失败");
+					this.$message.err("验证失败");
 				}
 			});
 		},
-		cancelEvent() {},
+		cancelEvent() {
+			// 点击注册按钮 弹出注册框
+			// 访问注册组件的this 通过this访问isShow = true
+			this.$refs.register.isShow = true;
+		},
 	},
 };
 </script>
@@ -185,26 +173,13 @@ export default {
 				color: #0c0c0c;
 			}
 		}
-		/* .btn-login {
-			width: 394px;
-			height: 40px;
-			border-radius: 4px;
-			margin-bottom: 26px;
-		}
-		.btn-register {
-			width: 394px;
-			height: 40px;
-			border-radius: 4px;
-		}
-		.el-form-item__content {
-			margin-left: 0 !import;
-		} */
+
 		.code {
-			/* width: 100%; */
+			width: 100%;
 			height: 40px;
 		}
 		.form {
-			margin-top: 30px;
+			margin-top: 3 0px;
 		}
 		.btn {
 			display: block;
