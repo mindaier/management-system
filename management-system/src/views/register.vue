@@ -63,6 +63,9 @@
 </template>
 
 <script>
+// 导入手机验证码API
+import { getPhoneCodeApi } from "@/api/register.js";
+
 export default {
 	isShow(newVal) {
 		if (newVal == false) {
@@ -194,18 +197,22 @@ export default {
 						this.totalTime = 5;
 					}
 				}, 1000);
-				this.$axios({
-					url: "/sendsms",
-					method: "post",
-					withCredentials: true,
-					data: {
-						code: this.form.code,
-						phone: this.form.phone,
-					},
+				// this.$axios({
+				// 	url: "/sendsms",
+				// 	method: "post",
+				// 	withCredentials: true,
+				// 	data: {
+				// 		code: this.form.code,
+				// 		phone: this.form.phone,
+				// 	},
+				// })
+				getPhoneCodeApi({
+					code: this.form.code,
+					phone: this.form.phone,
 				})
 					.then((res) => {
 						// 成功处理函数 获取验证码
-						console.log(res.data.data.captcha);
+						alert(res.data.data.captcha);
 					})
 					.catch((error) => {
 						// 失败处理函数
