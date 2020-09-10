@@ -64,7 +64,7 @@
 
 <script>
 // 导入手机验证码API
-import { getPhoneCodeApi } from "@/api/register.js";
+import { getPhoneCodeApi, registerUserApi } from "@/api/register.js";
 
 export default {
 	isShow(newVal) {
@@ -136,11 +136,11 @@ export default {
 	mounted() {},
 	methods: {
 		uploadSuccess(res) {
-			console.log(res);
+			// console.log(res);
 			this.form.avatar = res.data.file_path;
 			// this.imageUrl = res.data.file_path;
 			// 上传成功后 由于该组件内部没有执行它表单验证 所以我们要认为触发
-			// this.$refs.form.validateField(["avatar"]);
+			this.$refs.form.validateField(["avatar"]);
 		},
 		beforeUpload(file) {
 			const isJPG = file.type === "image/jpeg" || file.type === "image/png";
@@ -159,9 +159,16 @@ export default {
 			this.$refs.form.validate((result) => {
 				// console.log(this.$refs.form);
 				if (result) {
-					this.$message.success("验证成功");
+					// this.$message.success("注册成功");
+					registerUserApi(this.form).then((res) => {
+						console.log(res);
+						// if (res.data.code == 200) {
+						this.$message.success("注册成功");
+						this.isShow = false;
+						// }
+					});
 				} else {
-					this.$message.error("验证失败");
+					this.$message.error("注册失败");
 				}
 			});
 		},
@@ -186,7 +193,7 @@ export default {
 				}
 			});
 			if (_num == 2) {
-				this.$message.success("验证通过");
+				// this.$message.success("验证通过");
 				// 手机号和图形验证码都通过
 				// 调用接口获取验证码
 				let timer = setInterval(() => {
