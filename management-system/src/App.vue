@@ -9,7 +9,10 @@ export default {
 	data() {
 		return {};
 	},
-	created() {},
+	created() {
+		// let _url = process.env.VUE_APP_URL;
+		// alert(_url);
+	},
 	mounted() {},
 	methods: {},
 };

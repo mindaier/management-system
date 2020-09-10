@@ -57,7 +57,7 @@ export default {
 				phone: "",
 				password: "",
 				code: "",
-				isPass: false,
+				isPass: [],
 			},
 			rules: {
 				phone: [
