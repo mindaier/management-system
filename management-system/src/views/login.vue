@@ -10,18 +10,31 @@
 			</div>
 			<el-form ref="form" :model="form" :rules="rules">
 				<el-form-item prop="phone">
-					<el-input icon="el-icon-user" placeholder="请输入手机号" v-model="form.phone"></el-input>
+					<el-input
+						icon="el-icon-user"
+						placeholder="请输入手机号"
+						v-model="form.phone"
+					></el-input>
 				</el-form-item>
 				<el-form-item prop="password">
-					<el-input placeholder="请输入密码" icon="el-icon-lock" show-password v-model="form.password"></el-input>
+					<el-input
+						placeholder="请输入密码"
+						icon="el-icon-lock"
+						show-password
+						v-model="form.password"
+					></el-input>
 				</el-form-item>
 				<el-form-item prop="code">
 					<el-row>
 						<el-col :span="16">
-							<el-input prefix-icon="el-icon-key" placeholder="请输入验证码" v-model="form.code"></el-input>
+							<el-input
+								prefix-icon="el-icon-key"
+								placeholder="请输入验证码"
+								v-model="form.code"
+							></el-input>
 						</el-col>
 						<el-col :span="8">
-							<img class="code" src="@/assets/code.png" />
+							<img class="code" :src="codeImg" @click="refreshCode" />
 						</el-col>
 					</el-row>
 				</el-form-item>
@@ -33,9 +46,16 @@
 					</el-checkbox>
 				</el-form-item>
 				<el-form-item>
-					<el-button class="btn btn-login" type="primary" @click="toLogin">登陆</el-button>
+					<el-button class="btn btn-login" type="primary" @click="toLogin"
+						>登陆</el-button
+					>
 					<br />
-					<el-button class="btn btn-register" type="primary" @click="cancelEvent">注册</el-button>
+					<el-button
+						class="btn btn-register"
+						type="primary"
+						@click="cancelEvent"
+						>注册</el-button
+					>
 				</el-form-item>
 			</el-form>
 		</div>
@@ -53,6 +73,7 @@ export default {
 	},
 	data() {
 		return {
+			codeImg: process.env.VUE_APP_URL + "/captcha?type=login",
 			form: {
 				phone: "",
 				password: "",
@@ -71,6 +92,18 @@ export default {
 						max: 12,
 						message: "请输入长度为6-12位字符",
 						trigger: "blur",
+					},
+					{
+						validator: (rule, value, callback) => {
+							// 自定义表单验证
+							let _reg = /^(0|86|17951)?(13[0-9]|15[012356789]|166|17[3678]|18[0-9]|14[57])[0-9]{8}$/;
+							if (_reg.test(value)) {
+								callback();
+							} else {
+								callback(new Error("请正确输入手机号"));
+							}
+						},
+						trigger: "change",
 					},
 				],
 				password: [
@@ -105,6 +138,15 @@ export default {
 						message: "请勾选协议",
 						trigger: "change",
 					},
+					{
+						validator: (rule, value, callback) => {
+							if (value) {
+								callback();
+							} else {
+								callback(new Error("请勾选协议"));
+							}
+						},
+					},
 				],
 			},
 		};
@@ -125,6 +167,11 @@ export default {
 			// 点击注册按钮 弹出注册框
 			// 访问注册组件的this 通过this访问isShow = true
 			this.$refs.register.isShow = true;
+		},
+		refreshCode() {
+			// 验证码刷新
+			this.codeImg =
+				process.env.VUE_APP_URL + "/captcha?type=login&abc=" + Date.now();
 		},
 	},
 };
