@@ -3,7 +3,7 @@
 		<!-- 左侧登录表单 -->
 		<div class="left">
 			<div class="top">
-				<img class="login-logo" src="@/assets/login-logo.png" alt />
+				<img class="login-logo" src="@/assets/img/login-logo.png" alt />
 				<span class="t1">黑马面面</span>
 				<div class="line"></div>
 				<span class="t2">用户登录</span>
@@ -60,7 +60,7 @@
 			</el-form>
 		</div>
 		<!-- 右侧图片 -->
-		<img src="@/assets/login-right.png" class="right" />
+		<img src="@/assets/img/login-right.png" class="right" />
 		<register ref="register"></register>
 	</div>
 </template>
@@ -68,7 +68,7 @@
 <script>
 import register from "./register.vue";
 import { userLogin } from "@/api/login.js";
-import { saveLocal } from "@/utils/local.js";
+import { saveLocal, getLocal } from "@/utils/local.js";
 export default {
 	components: {
 		register,
@@ -153,7 +153,12 @@ export default {
 			},
 		};
 	},
-	created() {},
+	created() {
+		// 判断是否有token 有就跳转至layout 没有就不做处理
+		if (getLocal("token")) {
+			this.$router.push("/layout");
+		}
+	},
 	mounted() {},
 	methods: {
 		toLogin() {
