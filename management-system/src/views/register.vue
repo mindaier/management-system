@@ -1,5 +1,10 @@
 <template>
-	<el-dialog :visible.sync="isShow" width="600px" class="register" :show-close="false">
+	<el-dialog
+		:visible.sync="isShow"
+		width="600px"
+		class="register"
+		:show-close="false"
+	>
 		<!-- 表单验证 el-form model rules -->
 		<!-- 在需要验证的项el-form-item上 加上一个prop="需要验证的字段名" -->
 
@@ -16,7 +21,11 @@
 					:before-upload="beforeUpload"
 					:on-success="uploadSuccess"
 				>
-					<img v-if="form.avatar" :src="baseUrl + '/' + form.avatar" class="avatar" />
+					<img
+						v-if="form.avatar"
+						:src="baseUrl + '/' + form.avatar"
+						class="avatar"
+					/>
 					<i v-else class="el-icon-plus avatar-uploader-icon"></i>
 				</el-upload>
 			</el-form-item>
@@ -50,7 +59,9 @@
 					</el-col>
 					<el-col :span="8" :offset="1">
 						<!-- 点击后开始倒计时 并禁止该按钮 -->
-						<el-button :disabled="totalTime!=5" @click="getPhoneCode">获取用户验证码{{totalTime}}s</el-button>
+						<el-button :disabled="totalTime != 5" @click="getPhoneCode"
+							>获取用户验证码{{ totalTime }}s</el-button
+						>
 					</el-col>
 				</el-row>
 			</el-form-item>

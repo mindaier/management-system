@@ -67,6 +67,8 @@
 
 <script>
 import register from "./register.vue";
+import { userLogin } from "@/api/login.js";
+import { saveLocal } from "@/utils/local.js";
 export default {
 	components: {
 		register,
@@ -157,7 +159,14 @@ export default {
 		toLogin() {
 			this.$refs.form.validate((result) => {
 				if (result) {
-					this.$message.success("验证通过");
+					// this.$message.success("验证通过");
+					userLogin(this.form).then((res) => {
+						console.log(res);
+						this.$message.success("登录成功");
+						// window.localStorage.setItem("token", res.data.data.token);
+						saveLocal("token", res.data.data.token);
+						this.$router.push("/layout");
+					});
 				} else {
 					this.$message.err("验证失败");
 				}

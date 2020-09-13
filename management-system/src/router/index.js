@@ -16,6 +16,10 @@ const router = new VueRouter({
 			path: "/login",
 			component: login,
 		},
+		{
+			path: "/layout",
+			component: layout,
+		},
 	],
 });
 
