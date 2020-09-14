@@ -1,12 +1,16 @@
 <template>
 	<el-container class="layout">
 		<el-header class="header">
-			<div class="header-main" v-if="userInfo != ''">
+			<div class="header-main" v-if="$store.state.userInfo != ''">
 				<i class="el-icon-s-fold t1" @click="collapse = !collapse"></i>
 				<img src="@/assets/img/layout_logo.png" alt="" class="t2" />
 				<span class="t3">黑马面面</span>
-				<img :src="baseUrl + '/' + userInfo.avatar" alt="" class="t4" />
-				<span class="t5">{{ userInfo.username }},您好</span>
+				<img
+					:src="baseUrl + '/' + $store.state.userInfo.avatar"
+					alt=""
+					class="t4"
+				/>
+				<span class="t5">{{ $store.state.userInfo.username }},您好</span>
 				<el-button class="t6" type="primary" @click="exit">退出</el-button>
 			</div>
 		</el-header>
@@ -57,7 +61,7 @@ import { logout } from "@/api/layout.js";
 export default {
 	data() {
 		return {
-			userInfo: "",
+			// userInfo: "",
 			baseUrl: process.env.VUE_APP_URL,
 			collapse: false,
 		};
@@ -68,7 +72,9 @@ export default {
 			this.$router.push("/login");
 		}
 		getUserInfo().then((res) => {
-			this.userInfo = res.data.data;
+			// 使用vuex存储用户信息
+			this.$store.state.userInfo = res.data.data;
+			// this.userInfo = res.data.data;
 			// console.log("用户信息", res);
 		});
 	},
