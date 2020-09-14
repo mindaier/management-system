@@ -1,4 +1,4 @@
-// 工具型方法 保存 localStorage
+// 工具型方法  用localStorage 保存token
 function saveLocal(key, value) {
 	window.localStorage.setItem(key, value);
 }

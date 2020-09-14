@@ -37,6 +37,9 @@ const router = new VueRouter({
 				{
 					path: "/layout/user/user",
 					component: user,
+					meta: {
+						title: "用户列表",
+					},
 				},
 				{
 					path: "/layout/question/question",
@@ -73,8 +76,16 @@ router.afterEach((to, from) => {
 	console.log("to:", to);
 	console.log("from:", from);
 
+	if (to.path == "/layout/chart") {
+		document.getElementById("title").innerText = "数据概览";
+	} else if (to.path == "/layout/user") {
+		document.getElementById("title").innerText = to.meta.title;
+	}
+
+	// setTimeout(() => {
 	// 结束进度
 	NProgress.done();
+	// }, 10000);
 });
 
 export default router;

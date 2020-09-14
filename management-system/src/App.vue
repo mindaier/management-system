@@ -32,4 +32,8 @@ html {
 .app {
 	height: 100%;
 }
+
+#nprogress .spinner {
+	display: none !important;
+}
 </style>
