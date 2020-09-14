@@ -1,6 +1,7 @@
 <template>
 	<div>
 		用户列表
+		{{ $store.state.msg }}
 	</div>
 </template>
 

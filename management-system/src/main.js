@@ -17,8 +17,10 @@ Vue.config.productionTip = false;
 
 // 导入router
 import router from "./router";
+import store from "./store";
 
 new Vue({
+	store,
 	router,
 	render: (h) => h(App),
 }).$mount("#app");

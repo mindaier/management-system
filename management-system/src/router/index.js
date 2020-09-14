@@ -28,11 +28,14 @@ const router = new VueRouter({
 		{
 			path: "/layout",
 			component: layout,
-			// redirect: "/layout/chart/chart",
+			redirect: "/layout/chart/chart",
 			children: [
 				{
 					path: "/layout/chart/chart",
 					component: chart,
+					meta: {
+						title: "数据概览",
+					},
 				},
 				{
 					path: "/layout/user/user",
@@ -44,14 +47,23 @@ const router = new VueRouter({
 				{
 					path: "/layout/question/question",
 					component: question,
+					meta: {
+						title: "题库列表",
+					},
 				},
 				{
 					path: "/layout/company/company",
 					component: company,
+					meta: {
+						title: "企业列表",
+					},
 				},
 				{
 					path: "/layout/subject/subject",
 					component: subject,
+					meta: {
+						title: "学科列表",
+					},
 				},
 			],
 		},
@@ -71,16 +83,13 @@ router.beforeEach((to, from, next) => {
 	next();
 });
 
-// 路由后置守卫
+// 路由后置守卫(已进入目标路由)
 router.afterEach((to, from) => {
 	console.log("to:", to);
 	console.log("from:", from);
-
-	if (to.path == "/layout/chart") {
-		document.getElementById("title").innerText = "数据概览";
-	} else if (to.path == "/layout/user") {
-		document.getElementById("title").innerText = to.meta.title;
-	}
+	// 修改标签页title内容
+	// document.getElementById("title").innerText = "数据概览";
+	document.title = to.meta.title;
 
 	// setTimeout(() => {
 	// 结束进度
