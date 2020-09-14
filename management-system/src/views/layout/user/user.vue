@@ -1,7 +1,6 @@
 <template>
 	<div>
 		用户列表
-		<p>test的测试代码2222222</p>
 	</div>
 </template>
 
