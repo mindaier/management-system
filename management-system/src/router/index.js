@@ -28,38 +28,38 @@ const router = new VueRouter({
 		{
 			path: "/layout",
 			component: layout,
-			redirect: "/layout/chart/chart",
+			redirect: "/layout/chart",
 			children: [
 				{
-					path: "/layout/chart/chart",
+					path: "/layout/chart",
 					component: chart,
 					meta: {
 						title: "数据概览",
 					},
 				},
 				{
-					path: "/layout/user/user",
+					path: "/layout/user",
 					component: user,
 					meta: {
 						title: "用户列表",
 					},
 				},
 				{
-					path: "/layout/question/question",
+					path: "/layout/question",
 					component: question,
 					meta: {
 						title: "题库列表",
 					},
 				},
 				{
-					path: "/layout/company/company",
+					path: "/layout/company",
 					component: company,
 					meta: {
 						title: "企业列表",
 					},
 				},
 				{
-					path: "/layout/subject/subject",
+					path: "/layout/subject",
 					component: subject,
 					meta: {
 						title: "学科列表",
@@ -76,17 +76,17 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
 	// to: 去的路由信息 $route
 	// form: 从哪里来的路由信息 $route
-	console.log(to);
-	console.log("form:", from);
+	// console.log(to);
+	// console.log("form:", from);
 	NProgress.start();
 	// 允许通过 next()  不允许通过next('path')
 	next();
 });
 
 // 路由后置守卫(已进入目标路由)
-router.afterEach((to, from) => {
-	console.log("to:", to);
-	console.log("from:", from);
+router.afterEach((to) => {
+	// console.log("to:", to);
+	// console.log("from:", from);
 	// 修改标签页title内容
 	// document.getElementById("title").innerText = "数据概览";
 	document.title = to.meta.title;

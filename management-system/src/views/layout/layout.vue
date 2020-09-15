@@ -15,30 +15,30 @@
 			</div>
 		</el-header>
 		<el-container>
-			<el-aside width="200px">
+			<el-aside width="auto">
 				<el-menu
 					:default-active="$route.path"
 					:collapse="collapse"
 					class="el-menu-vertical-demo"
 					:router="true"
 				>
-					<el-menu-item index="/layout/chart/chart">
+					<el-menu-item index="/layout/chart">
 						<i class="el-icon-pie-chart"></i>
 						<span slot="title" class="title">数据概览</span>
 					</el-menu-item>
-					<el-menu-item index="/layout/user/user">
+					<el-menu-item index="/layout/user">
 						<i class="el-icon-user"></i>
 						<span slot="title" class="title">用户列表</span>
 					</el-menu-item>
-					<el-menu-item index="/layout/question/question">
+					<el-menu-item index="/layout/question">
 						<i class="el-icon-edit-outline"></i>
 						<span slot="title" class="title">题库列表</span>
 					</el-menu-item>
-					<el-menu-item index="/layout/company/company">
+					<el-menu-item index="/layout/company">
 						<i class="el-icon-office-building"></i>
 						<span slot="title" class="title">企业列表</span>
 					</el-menu-item>
-					<el-menu-item index="/layout/subject/subject">
+					<el-menu-item index="/layout/subject">
 						<i class="el-icon-notebook-2"></i>
 						<span slot="title" class="title">学科列表</span>
 					</el-menu-item>
@@ -140,14 +140,11 @@ export default {
 		background: #e8e9ec;
 	}
 	.el-menu-vertical-demo:not(.el-menu--collapse) {
-		width: 160px;
-	}
-	.el-menu-vertical-demo .title {
-		width: 160px;
+		width: 200px;
 	}
 	.el-aside {
 		border-right: 0;
-		width: 160px !important;
+		// width: 160px !important;
 	}
 }
 </style>
