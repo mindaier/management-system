@@ -22,11 +22,17 @@
 					class="el-menu-vertical-demo"
 					:router="true"
 				>
-					<el-menu-item index="/layout/chart">
-						<i class="el-icon-pie-chart"></i>
-						<span slot="title" class="title">数据概览</span>
-					</el-menu-item>
-					<el-menu-item index="/layout/user">
+					<template v-for="(item, index) in $router.options.routes[2].children">
+						<el-menu-item
+							:key="index"
+							:index="item.path"
+							v-if="item.meta.roles.includes($store.state.role)"
+						>
+							<i :class="item.meta.icon"></i>
+							<span slot="title" class="title">{{ item.meta.title }}</span>
+						</el-menu-item>
+					</template>
+					<!-- <el-menu-item index="/layout/user">
 						<i class="el-icon-user"></i>
 						<span slot="title" class="title">用户列表</span>
 					</el-menu-item>
@@ -34,14 +40,14 @@
 						<i class="el-icon-edit-outline"></i>
 						<span slot="title" class="title">题库列表</span>
 					</el-menu-item>
-					<el-menu-item index="/layout/company">
+					<el-menu-item index="/layout/business">
 						<i class="el-icon-office-building"></i>
 						<span slot="title" class="title">企业列表</span>
 					</el-menu-item>
 					<el-menu-item index="/layout/subject">
 						<i class="el-icon-notebook-2"></i>
 						<span slot="title" class="title">学科列表</span>
-					</el-menu-item>
+					</el-menu-item> -->
 				</el-menu>
 			</el-aside>
 			<el-container>
@@ -76,6 +82,22 @@ export default {
 			this.$store.state.userInfo = res.data.data;
 			// this.userInfo = res.data.data;
 			// console.log("用户信息", res);
+
+			// 获取用户角色
+			this.$store.state.role = res.data.data.role;
+			// 如果账号被禁用
+			if (res.data.data.status == 0) {
+				this.$message.error("你的账号已经被禁用");
+				removeLocal("token");
+				this.$router.push("/login");
+			} else if (!this.$route.meta.roles.includes(res.data.data.role)) {
+				// 如果当前路由的路由元 的权限数组中不包含当前登录人角色
+				this.$message.error("您无权访问该页面");
+				removeLocal("token");
+				this.$router.push("/login");
+			} else {
+				this.$message.success("登录成功");
+			}
 		});
 	},
 	mounted() {},

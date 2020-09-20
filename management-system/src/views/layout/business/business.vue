@@ -1,53 +1,46 @@
 <template>
-	<div class="userList">
+	<div class="business">
 		<el-card>
 			<el-form :model="form" inline ref="form">
-				<el-form-item prop="username" label="用户名称">
-					<el-input v-model="form.username" class="w100"></el-input>
+				<el-form-item prop="eid" label="企业编号">
+					<el-input v-model="form.eid"></el-input>
 				</el-form-item>
-				<el-form-item prop="email" label="用户邮箱">
-					<el-input v-model="form.email" class="w149"></el-input>
+				<el-form-item prop="name" label="企业名称">
+					<el-input v-model="form.name"></el-input>
 				</el-form-item>
-				<el-form-item prop="role_id" label="角色">
-					<el-select v-model="form.role_id" class="w149">
-						<el-option
-							v-for="(value, key, index) in roleObj"
-							:key="index"
-							:label="value"
-							value="key"
-						></el-option>
+				<el-form-item prop="username" label="创建者">
+					<el-input v-model="form.username"></el-input>
+				</el-form-item>
+				<el-form-item prop="status" label="状态">
+					<el-select v-model="form.status">
+						<el-option label="禁用" value="0"></el-option>
+						<el-option label="启用" value="1"></el-option>
 					</el-select>
 				</el-form-item>
 				<el-form-item>
 					<el-button type="primary" @click="search">搜索</el-button>
 					<el-button @click="reset">清除</el-button>
-					<el-button type="primary" @click="add">+新增用户</el-button>
+					<el-button type="primary" @click="add">+新增企业</el-button>
 				</el-form-item>
 			</el-form>
 		</el-card>
-
-		<el-card class="table">
+		<el-card>
 			<el-table :data="list">
 				<el-table-column label="序号" width="50px">
 					<template v-slot="scope">
 						{{ scope.$index + 1 }}
 					</template>
 				</el-table-column>
-				<el-table-column label="用户名" prop="username" width="100px">
+				<el-table-column label="企业编号" prop="eid" width="90px">
 				</el-table-column>
-				<el-table-column label="电话" prop="phone" width="120px">
-				</el-table-column>
-				<el-table-column label="邮箱" prop="email" width="160px">
-				</el-table-column>
-				<el-table-column label="角色" prop="role" width="120px">
-				</el-table-column>
-				<el-table-column label="备注" prop="remark"> </el-table-column>
+				<el-table-column label="企业名称" prop="name"> </el-table-column>
+				<el-table-column label="创建者" prop="username"> </el-table-column>
 				<el-table-column label="状态" width="100px">
 					<template v-slot="scope">
 						{{ scope.row.status == 0 ? "禁用" : "启用" }}
 					</template>
 				</el-table-column>
-				<el-table-column label="操作" width="260px">
+				<el-table-column label="操作" width="250px">
 					<template v-slot="scope">
 						<el-button type="primary" @click="edit(scope.row)">
 							编辑
@@ -74,39 +67,33 @@
 			>
 			</el-pagination>
 		</div>
-		<userAdd
-			ref="userAdd"
-			:modeSon="modeFather"
-			:roleObj="roleObj"
-			@sonSearch="getData"
-		></userAdd>
+		<businessAdd ref="businessAdd" :modeSon="modeFather"></businessAdd>
 	</div>
 </template>
 <script>
-import { getUserListList, setUserListStatus, delUserList } from "@/api/user.js";
-import userAdd from "./userAdd";
+import {
+	getBusinessList,
+	setBusinessStatus,
+	delBusiness,
+} from "@/api/business.js";
+import businessAdd from "./businessAdd";
 export default {
 	components: {
-		userAdd,
+		businessAdd,
 	},
 	data() {
 		return {
 			modeFather: "add",
-			roleObj: {
-				1: "超级管理员",
-				2: "管理员",
-				3: "老师",
-				4: "学生",
-			},
 			pagination: {
 				currentPage: 1, //页码
 				pageSize: 1, //页容量
 				total: 100,
 			},
 			form: {
-				username: "", //否	string	昵称
-				email: "", //否	string	邮箱
-				role_id: "", //否	string	角色数字 2管理员、3老师、 4学生
+				eid: "", //否	string	企业id
+				name: "", //否	string	企业名称
+				username: "", //否	string	用户名
+				status: "", //否	string	状态 1（启用） 0（禁用）
 			},
 			list: [],
 		};
@@ -115,53 +102,45 @@ export default {
 		this.getData();
 	},
 	methods: {
-		// 列表
 		getData() {
 			let _query = {
 				...this.form,
 				page: this.pagination.currentPage,
 				limit: this.pagination.pageSize,
 			};
-			getUserListList(_query).then((res) => {
+			getBusinessList(_query).then((res) => {
 				this.list = res.data.data.items;
 				this.pagination.total = res.data.data.pagination.total;
-				window.console.log("用户列表：", res);
+				window.console.log("企业列表：", res);
 			});
 		},
-		// 搜索
 		search() {
 			this.pagination.currentPage = 1;
 			this.getData();
 		},
-		// 页容量改变
 		handleSizeChange(size) {
 			this.pagination.pageSize = size;
 			this.search();
 		},
-		// 页码改变
 		handleCurrentChange(page) {
 			this.pagination.currentPage = page;
 			this.getData();
 		},
-		// 新增
 		add() {
 			this.modeFather = "add";
-			this.$refs.userAdd.isShow = true;
+			this.$refs.businessAdd.isShow = true;
 		},
-		// 编辑
 		edit(row) {
 			this.modeFather = "edit";
-			this.$refs.userAdd.form = JSON.parse(JSON.stringify(row));
-			this.$refs.userAdd.isShow = true;
+			this.$refs.businessAdd.form = JSON.parse(JSON.stringify(row));
+			this.$refs.businessAdd.isShow = true;
 		},
-		// 清空
 		reset() {
 			this.$refs.form.resetFields();
 			this.search();
 		},
-		// 设置状态
 		setStatus(id) {
-			setUserListStatus({ id }).then(() => {
+			setBusinessStatus({ id }).then(() => {
 				// 提示一下，设置状态成功，
 				this.$message.success("设置状态成功");
 				// 刷新数据
@@ -169,7 +148,7 @@ export default {
 			});
 		},
 		del(id) {
-			delUserList({ id }).then(() => {
+			delBusiness({ id }).then(() => {
 				this.$message.success("删除成功");
 				// 刷新数据
 				this.search();
@@ -179,18 +158,9 @@ export default {
 };
 </script>
 <style lang="less">
-.w100 {
-	width: 100px;
-}
-.w149 {
-	width: 149px;
-}
 .pagination {
 	background-color: #fff;
 	padding: 15px;
 	text-align: center;
-}
-.table {
-	margin-top: 30px;
 }
 </style>

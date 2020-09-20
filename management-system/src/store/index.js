@@ -7,6 +7,7 @@ const store = new Vuex.Store({
 	state: {
 		msg: "测试vuex数据",
 		userInfo: "",
+		role: "超级管理员",
 	},
 });
 
